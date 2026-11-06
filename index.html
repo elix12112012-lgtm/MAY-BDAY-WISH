@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAY BDAY WISH!</title>
+    <!-- Подключаем пиксельный шрифт, шрифт для глазури и шрифт для открытки -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Caveat:wght@600;700&family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* Переливающийся пастельный фон */
+            background: linear-gradient(135deg, #d4f0d6, #ffd1dc, #d0f4de, #c1f0f6, #ffffff);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            font-family: 'Comfortaa', cursive;
+            color: #555;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            border: 4px dashed #ffb6c1;
+            border-radius: 24px;
+            padding: 25px;
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.35);
+            position: relative;
+        }
+
+        /* Заголовок под глазурь */
+        h1.glaze-title {
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem;
+            color: #ff69b4;
+            text-shadow: 2px 2px 0px #fff, 4px 4px 0px rgba(255, 182, 193, 0.5);
+            margin-bottom: 2px;
+            line-height: 1;
+        }
+
+        .brand-sub {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            color: #777;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        /* Кнопки в пиксельном стиле */
+        .pixel-btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            background-color: #ffccd5;
+            color: #d84370;
+            border: 3px solid #ff8fa3;
+            border-radius: 8px;
+            padding: 12px 20px;
+            cursor: pointer;
+            margin: 15px 0;
+            box-shadow: 0 4px 0 #ff8fa3;
+            transition: all 0.1s ease;
+        }
+
+        .pixel-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 #ff8fa3;
+        }
+
+        .pixel-btn:hover {
+            background-color: #ffb3c1;
+        }
+
+        /* Шаги создания торта */
+        .step-container {
+            display: none;
+        }
+
+        .step-container.active {
+            display: block;
+        }
+
+        h2 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .option-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            font-family: 'Comfortaa', cursive;
+            font-weight: 700;
+            font-size: 14px;
+            color: #666;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .option-card:hover {
+            border-color: #ff8fa3;
+            background-color: #fff0f3;
+            transform: scale(1.02);
+        }
+
+        .option-card.selected {
+            border-color: #ff69b4;
+            background-color: #ffe0e9;
+            color: #c71585;
+        }
+
+        /* Аккуратный и детализированный торт */
+        .cake-preview-box {
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 15px auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #fbf9f6;
+            border-radius: 18px;
+            border: 2px dashed #f0d1dc;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .cake-wrapper {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            filter: drop-shadow(0 6px 10px rgba(0,0,0,0.08));
+        }
+
+        /* Верхняя кремовая шапочка с потеками глазури */
+        .cake-top-frosting {
+            width: 172px;
+            height: 35px;
+            background: #ffffff;
+            border-radius: 50% 50% 20px 20px;
+            position: relative;
+            z-index: 5;
+            box-shadow: inset 0 -3px 5px rgba(0,0,0,0.04);
+        }
+
+        /* Декоративные капли/потеки */
+        .cake-top-frosting::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 15px;
+            width: 142px;
+            height: 10px;
+            background: #ffffff;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 3px 4px rgba(0,0,0,0.03);
+        }
+
+        /* Верхний корж */
+        .cake-sponge-top {
+            width: 160px;
+            height: 35px;
+            border-radius: 15px;
+            margin-top: -10px;
+            position: relative;
+            z-index: 4;
+            transition: background 0.3s;
+        }
+
+        /* Прослойка крема */
+        .cake-filling-layer {
+            width: 164px;
+            height: 14px;
+            background: #ffffff;
+            border-radius: 4px;
+            margin: -4px 0;
+            z-index: 3;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: background 0.3s;
+        }
+
+        /* Нижний корж */
+        .cake-sponge-bottom {
+            width: 160px;
+            height: 35px;
+            border-radius: 5px 5px 15px 15px;
+            margin-top: -4px;
+            position: relative;
+            z-index: 2;
+            transition: background 0.3s;
+        }
+
+        /* Подставка под торт */
+        .cake-plate {
+            width: 200px;
+            height: 12px;
+            background: #e8e8e8;
+            border-radius: 50%;
+            margin-top: 6px;
+            z-index: 1;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        /* Украшения сверху торта */
+        .cake-decorations {
+            position: absolute;
+            top: -18px;
+            display: flex;
+            gap: 12px;
+            z-index: 6;
+            font-size: 24px;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
+        }
+
+        /* Открытка с поздравлением */
+        .card-message {
+            font-family: 'Caveat', cursive;
+            font-size: 22px;
+            color: #555;
+            background: #fffdf9;
+            border: 2px dashed #ffccd5;
+            border-radius: 14px;
+            padding: 15px;
+            margin: 15px 0;
+            line-height: 1.35;
+            text-align: left;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.03);
+        }
+
+        /* Ссылки на каналы внизу */
+        .links-box {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .link-btn {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 9px;
+            text-decoration: none;
+            background: #e2ece9;
+            color: #3b7a57;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid #a3c9b8;
+            display: block;
+            transition: 0.2s;
+        }
+
+        .link-btn:hover {
+            background: #c7ebd0;
+        }
+
+        .link-btn.brand-link {
+            background: #faedcd;
+            color: #bc6c25;
+            border-color: #d4a373;
+        }
+
+        .link-btn.brand-link:hover {
+            background: #fefae0;
+        }
+
+        .music-control {
+            margin-top: 15px;
+            font-size: 10px;
+            font-family: 'Press Start 2P', monospace;
+            background: transparent;
+            border: none;
+            color: #888;
+            cursor: pointer;
+        }
+        
+        .music-control:hover {
+            color: #ff69b4;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Шапка -->
+        <h1 class="glaze-title">MAY BDAY WISH!</h1>
+        <div class="brand-sub">MAY JOUR × LAYF BRAND</div>
+
+        <!-- ЭТАП 0: Главный экран -->
+        <div id="step-0" class="step-container active">
+            <div style="font-size: 55px; margin: 15px 0; animation: bounce 2s infinite;">🎂</div>
+            <p style="font-size: 14px; margin-bottom: 20px; color: #666;">Создай свой уникальный праздничный тортик!</p>
+            <button class="pixel-btn" onclick="nextStep(1)">НАЧАТЬ ДЕЛАТЬ ТОРТ</button>
+        </div>
+
+        <!-- ЭТАП 1: Выбор коржей -->
+        <div id="step-1" class="step-container">
+            <h2>ВЫБЕРИ КОРЖИ:</h2>
+            <div class="options-grid">
+                <div class="option-card" onclick="setSponge('шоколадный', '#5c3a21', this)">🍫 Шоколадный</div>
+                <div class="option-card" onclick="setSponge('красный бархат', '#b22222', this)">🌹 Красный бархат</div>
+                <div class="option-card" onclick="setSponge('белый бисквит', '#fef9e7', this)">🍰 Белый бисквит</div>
+            </div>
+            <button class="pixel-btn" id="next-1" style="display:none;" onclick="nextStep(2)">ДАЛЕЕ</button>
+        </div>
+
+        <!-- ЭТАП 2: Выбор крема -->
+        <div id="step-2" class="step-container">
+            <h2>ВЫБЕРИ КРЕМ:</h2>
+            <div class="options-grid">
+                <div class="option-card" onclick="setFilling('шоколадный', '#4a2e18', this)">🍫 Шоколадный</div>
+                <div class="option-card" onclick="setFilling('белый', '#ffffff', this)">🤍 Белый крем</div>
+                <div class="option-card" onclick="setFilling('клубничный', '#ffb6c1', this)">🍓 Клубничный</div>
+                <div class="option-card" onclick="setFilling('малиновый', '#ff6f91', this)">🍇 Малиновый</div>
+            </div>
+            <button class="pixel-btn" id="next-2" style="display:none;" onclick="nextStep(3)">ДАЛЕЕ</button>
+        </div>
+
+        <!-- ЭТАП 3: Глазурь по торту -->
+        <div id="step-3" class="step-container">
+            <h2>ПОКРЫТИЕ ТОРТА:</h2>
+            <p style="font-size: 12px; margin-bottom: 15px;">Традиционное нежное белое покрытие ✨</p>
+            <div class="cake-preview-box">
+                <div class="cake-wrapper">
+                    <div class="cake-decorations">✨</div>
+                    <div class="cake-top-frosting"></div>
+                    <div class="cake-sponge-top" style="background: #fef9e7;"></div>
+                    <div class="cake-filling-layer" style="background: #ffffff;"></div>
+                    <div class="cake-sponge-bottom" style="background: #fef9e7;"></div>
+                </div>
+                <div class="cake-plate"></div>
+            </div>
+            <button class="pixel-btn" onclick="nextStep(4)">ПОКРЫТЬ КРЕМОМ</button>
+        </div>
+
+        <!-- ЭТАП 4: Выбор декора -->
+        <div id="step-4" class="step-container">
+            <h2>ДОБАВЬ ДЕКОР:</h2>
+            <div class="options-grid">
+                <div class="option-card" onclick="toggleDecor('🍓 Клубника', '🍓', this)">🍓 Клубника</div>
+                <div class="option-card" onclick="toggleDecor('🫐 Голубика', '🫐', this)">🫐 Голубика</div>
+                <div class="option-card" onclick="toggleDecor('🍫 Шоколад', '🍫', this)">🍫 Шоколад</div>
+            </div>
+            <button class="pixel-btn" onclick="nextStep(5)">ГОТОВО! 🎂</button>
+        </div>
+
+        <!-- ЭТАП 5: Результат -->
+        <div id="step-5" class="step-container">
+            <h2>ТВОЙ ТОРТИК СОЗДАН!</h2>
+            
+            <!-- Финальный аккуратный торт -->
+            <div class="cake-preview-box">
+                <div class="cake-wrapper">
+                    <div class="cake-decorations" id="final-decorations">🎂</div>
+                    <div class="cake-top-frosting"></div>
+                    <div class="cake-sponge-top" id="final-sponge-top"></div>
+                    <div class="cake-filling-layer" id="final-filling-view"></div>
+                    <div class="cake-sponge-bottom" id="final-sponge-bottom"></div>
+                </div>
+                <div class="cake-plate"></div>
+            </div>
+
+            <!-- Письмо прописным шрифтом -->
+            <div class="card-message">
+                привет !<br>
+                спасибо что сделал для меня тортик ~<br>
+                я очень рад , надеюсь мы проведём этот день хорошо ❤️
+            </div>
+
+            <!-- Ссылки -->
+            <div class="links-box">
+                <a href="https://t.me/may_jouroi" target="_blank" class="link-btn">✨ ЗАКОНЧИТЬ &bull; MAY CHANNEL</a>
+                <a href="https://t.me/Layf_oi_brand" target="_blank" class="link-btn brand-link">🌸 LAYF BRAND</a>
+            </div>
+        </div>
+
+        <!-- Фоновая музыка -->
+        <button class="music-control" id="music-btn" onclick="toggleMusic()">🎵 Включить фоновую музыку</button>
+    </div>
+
+    <!-- Аудио плеер -->
+    <audio id="bg-music" loop>
+        <source src="https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg" type="audio/ogg">
+    </audio>
+
+    <script>
+        let cakeData = {
+            spongeColor: '#fef9e7',
+            fillingColor: '#ffffff',
+            decors: []
+        };
+
+        function nextStep(stepNumber) {
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step-${stepNumber}`).classList.add('active');
+
+            if (stepNumber === 5) {
+                buildFinalCake();
+            }
+        }
+
+        function setSponge(name, color, element) {
+            cakeData.spongeColor = color;
+            highlightCard(element);
+            document.getElementById('next-1').style.display = 'block';
+        }
+
+        function setFilling(name, color, element) {
+            cakeData.fillingColor = color;
+            highlightCard(element);
+            document.getElementById('next-2').style.display = 'block';
+        }
+
+        function toggleDecor(name, emoji, element) {
+            element.classList.toggle('selected');
+            const index = cakeData.decors.indexOf(emoji);
+            if (index > -1) {
+                cakeData.decors.splice(index, 1);
+            } else {
+                cakeData.decors.push(emoji);
+            }
+        }
+
+        function highlightCard(element) {
+            element.parentNode.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function buildFinalCake() {
+            const spongeTop = document.getElementById('final-sponge-top');
+            const spongeBottom = document.getElementById('final-sponge-bottom');
+            const fillingView = document.getElementById('final-filling-view');
+            const decorView = document.getElementById('final-decorations');
+
+            spongeTop.style.background = cakeData.spongeColor;
+            spongeBottom.style.background = cakeData.spongeColor;
+            fillingView.style.background = cakeData.fillingColor;
+
+            if (cakeData.decors.length > 0) {
+                decorView.innerHTML = cakeData.decors.join(' ');
+            } else {
+                decorView.innerHTML = '🎂';
+            }
+        }
+
+        let isMusicPlaying = false;
+        function toggleMusic() {
+            const audio = document.getElementById('bg-music');
+            const btn = document.getElementById('music-btn');
+            
+            if (!isMusicPlaying) {
+                audio.volume = 0.4;
+                audio.play().catch(e => console.log("Автозапуск заблокирован"));
+                isMusicPlaying = true;
+                btn.textContent = "🎵 Музыка играет (~ω~)";
+            } else {
+                audio.pause();
+                isMusicPlaying = false;
+                btn.textContent = "🎵 Включить фоновую музыку";
+            }
+        }
+    </script>
+</body>
+</html>
